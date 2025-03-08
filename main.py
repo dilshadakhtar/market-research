@@ -15,13 +15,16 @@ if st.button("Submit"):
     if name:
         # Fetch existing data
         sheet_data = conn.read()
-        
+        st.write(sheet_data)
         # Append new row
         new_row = {"Name": name}
         sheet_data = sheet_data.append(new_row, ignore_index=True)
         
         # Update Google Sheet
-        conn.update(sheet_data)
+        sheet_data = conn.update(data=sheet_data)
+        st.cache_data.clear()
+        st.rerun()
+
         
         st.success(f"Thanks {name}, your name has been added to the sheet!")
     else:
