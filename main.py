@@ -18,10 +18,9 @@ if st.button("Submit"):
         st.write(sheet_data)
         # Append new row
         new_row = {"Name": name}
-        sheet_data = sheet_data.append(new_row, ignore_index=True)
         
         # Update Google Sheet
-        sheet_data = conn.update(data=sheet_data)
+        sheet_data = conn.update(data=new_row)
         st.cache_data.clear()
         st.rerun()
 
