@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 from streamlit_gsheets import GSheetsConnection
 
 # Set up the connection to Google Sheets
@@ -17,10 +18,10 @@ if st.button("Submit"):
         sheet_data = conn.read()
         st.write(sheet_data)
         # Append new row
-        new_row = {"Name": name}
+        new_row = pd.DataFrame({"Name": name})
         
         # Update Google Sheet
-        sheet_data = conn.update(data=new_row)
+        conn.update(data=new_row)
         st.cache_data.clear()
         st.rerun()
 
