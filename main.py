@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import re
+import random
 from streamlit_gsheets import GSheetsConnection
 
 # Set up the connection to Google Sheets
@@ -22,9 +23,11 @@ st.markdown("""
 st.title("🌿 Food Habits Survey")
 
 st.markdown("""
-    Welcome to our interactive food habits survey! Your responses will help us better understand dining preferences. 
+    Welcome to our food habits survey! Your responses will help us better understand dining preferences. 
     Please answer the following questions thoughtfully.
 """)
+
+email = st.text_input("**Enter your email (optional):**")
 
 # Demographic Questions
 st.header("📊 Demographic Information")
@@ -47,7 +50,6 @@ gender = st.radio("**What is your gender?**", [
     "Male", "Female", "Non-binary/Third gender", "Prefer not to say"
 ])
 
-email = st.text_input("**Enter your email (optional):**")
 
 # Email validation
 def is_valid_email(email):
@@ -121,3 +123,8 @@ if st.button("Submit ✅"):
         st.cache_data.clear()
         st.success("🎉 Thank you for completing the survey! Your feedback means a lot.")
         st.balloons()
+        st.info("🌟 Prompt Engineering Tip:
+If GPT struggles with complex problems, try pre-pending your query with:
+"Take a deep breath, solve the problem step by step:"
+
+This instruction encourages the model to break down the problem into manageable steps—mimicking the detailed reasoning often found in its training data—which can lead to more accurate and comprehensive answers.")
