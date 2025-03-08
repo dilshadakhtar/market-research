@@ -123,8 +123,8 @@ if st.button("Submit ✅"):
         st.cache_data.clear()
         st.success("🎉 Thank you for completing the survey! Your feedback means a lot.")
         st.balloons()
-        st.info("🌟 Prompt Engineering Tip:
+        st.info("""🌟 Prompt Engineering Tip:
 If GPT struggles with complex problems, try pre-pending your query with:
 "Take a deep breath, solve the problem step by step:"
 
-This instruction encourages the model to break down the problem into manageable steps—mimicking the detailed reasoning often found in its training data—which can lead to more accurate and comprehensive answers.")
+This instruction encourages the model to break down the problem into manageable steps—mimicking the detailed reasoning often found in its training data—which can lead to more accurate and comprehensive answers.""")
