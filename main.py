@@ -3,6 +3,8 @@ import pandas as pd
 import re
 import random
 from streamlit_gsheets import GSheetsConnection
+from streamlit_sortables import sort_items
+from streamlit_star_rating import st_star_rating
 
 # Set up the connection to Google Sheets
 conn = st.connection("gsheets", type=GSheetsConnection)
@@ -85,6 +87,29 @@ online_reviews = st.radio("**How often do you check online reviews before select
     "Always", "Often", "Sometimes", "Rarely", "Never"
 ])
 
+# Ranking factors
+st.write("**Rank the following factors that influence your choice between dine-in and take away/delivery:**")
+ranking_choices = [
+    "Time constraints",
+    "Social experience",
+    "Convenience of home dining",
+    "Ambiance and service quality",
+    "Health concerns (e.g., avoiding crowded places)"
+]
+ranked_preferences = sort_items(ranking_choices)
+
+# Star ratings
+st.write("**Rate the following factors that influence your decision on where to eat (1⭐ = Least Important, 5⭐ = Most Important):**")
+decision_factors = [
+    "Past Experience", "Online reviews (Google, Yelp, Zomato)", "Social media (Instagram, TikTok, YouTube)",
+    "Word of mouth", "Promotions/Discounts", "Location of restaurants"
+]
+
+star_ratings = {factor: st_star_rating(label=factor, maxValue=5, defaultValue=0) for factor in decision_factors}
+
+star_ratings_str = ", ".join([f"{factor}: {rating}" for factor, rating in star_ratings.items()])
+
+
 changed_mind = st.radio("**Have you ever changed your mind about a restaurant due to negative online reviews?**", [
     "Yes, frequently", "Yes, occasionally", "No, never"
 ])
@@ -96,13 +121,17 @@ factors = st.multiselect("**Which of these factors influence your choice of food
 
 @st.dialog("🌟 Prompt Engineering Tip 🌟 ")
 def tip():
-    st.write("If GPT struggles with complex problems, try pre-pending your query with:")
-    st.write("Take a deep breath, solve the problem step by step:")
-    st.info("This instruction encourages the model to break down the problem into manageable steps—mimicking the detailed reasoning often found in its training data—which can lead to more accurate and comprehensive answers.")
-    st.image("Before.png", "Before Prompt Engineering")
+    st.write("**Struggling to get the right answer from GPT?**")
+    st.write("Try adding this simple instruction at the start of your question:")
+    st.markdown("### *Take a deep breath, solve the problem step by step:*")
+    st.info("This helps GPT slow down and think through each part of the problem carefully, just like a person would. As it encourages the model to break down the problem into manageable steps—mimicking the detailed reasoning often found in its training data—which can lead to more accurate and comprehensive answers.")
+    st.write("**See the difference:**")
+    st.write(" *Before using the prompt:* GPT gave the wrong answer.")
+    st.image("Before.png", "Before Adding the Prompt")
+    st.write("✅ *After using the prompt:* GPT provided the correct answer.")
     st.image("After1.png")
-    st.image("After2.png", "After Prompt Engineering")
-    st.link_button("Go to Question", "https://medium.com/@htobochnik/mathematical-problem-solving-that-chatgpt-cant-do-a3c83e935c6b")
+    st.image("After2.png", "After Adding the Prompt")
+    st.link_button("Read More", "https://arxiv.org/pdf/2309.03409")
 
 # Submit button
 if st.button("Submit ✅"):
@@ -118,11 +147,11 @@ if st.button("Submit ✅"):
         new_row = pd.DataFrame([[
             age_group, occupation, city, marital_status, family_size, gender, email,
             dining_frequency, preference, dine_spend, delivery_spend, 
-            influence, online_reviews, changed_mind, ", ".join(factors)
+            influence, online_reviews, ranked_preferences, star_ratings_str, changed_mind, ", ".join(factors)
         ]], columns=[
             "Age Group", "Occupation", "City", "Marital Status", "Family Size", "Gender", "Email",
             "Dining Frequency", "Preference", "Dine-out Spend", "Delivery Spend", 
-            "Influencer", "Online Reviews", "Changed Mind", "Food Factors"
+            "Influencer", "Online Reviews", "Preferences", "Influencing-Factor", "Changed Mind", "Food Factors"
         ])
         
         # Append new row to existing data
