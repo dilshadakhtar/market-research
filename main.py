@@ -13,8 +13,16 @@ name = st.text_input("Enter your name:")
 # Submit button
 if st.button("Submit"):
     if name:
-        # Append the name to Google Sheet
-        conn.insert({"Name": name})
+        # Fetch existing data
+        sheet_data = conn.read()
+        
+        # Append new row
+        new_row = {"Name": name}
+        sheet_data = sheet_data.append(new_row, ignore_index=True)
+        
+        # Update Google Sheet
+        conn.update(sheet_data)
+        
         st.success(f"Thanks {name}, your name has been added to the sheet!")
     else:
         st.error("Please enter a name before submitting.")
