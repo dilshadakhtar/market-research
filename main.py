@@ -67,6 +67,9 @@ factors = st.multiselect("Which of these factors influence your choice of food?"
 
 # Submit button
 if st.button("Submit"):
+    # Fetch existing data
+    sheet_data = conn.read()
+    
     # Create DataFrame for new entry
     new_row = pd.DataFrame([[
         age_group, occupation, city, marital_status, family_size, gender,
@@ -78,8 +81,11 @@ if st.button("Submit"):
         "Influencer", "Online Reviews", "Changed Mind", "Food Factors"
     ])
     
-    # Append new row to Google Sheets
-    conn.update(data=new_row)
+    # Append new row to existing data
+    updated_data = pd.concat([sheet_data, new_row], ignore_index=True)
+    
+    # Update Google Sheets
+    conn.update(data=updated_data)
     st.cache_data.clear()
     st.rerun()
     
