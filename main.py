@@ -18,8 +18,7 @@ if st.button("Submit"):
         sheet_data = conn.read()
         st.write(sheet_data)
         # Append new row
-        new_row = pd.DataFrame({"Name": name},index=0)
-        
+        new_row = pd.DataFrame([[name]], columns=['Name'])
         # Update Google Sheet
         conn.update(data=new_row)
         st.cache_data.clear()
