@@ -94,6 +94,16 @@ factors = st.multiselect("**Which of these factors influence your choice of food
     "Organic or locally sourced ingredients", "Gluten-free options"
 ])
 
+@st.dialog("🌟 Prompt Engineering Tip 🌟 ")
+def tip():
+    st.write("If GPT struggles with complex problems, try pre-pending your query with:")
+    st.write("Take a deep breath, solve the problem step by step:")
+    st.info("This instruction encourages the model to break down the problem into manageable steps—mimicking the detailed reasoning often found in its training data—which can lead to more accurate and comprehensive answers.")
+    st.image("image/Before.png", "Before Prompt Engineering")
+    st.image("image/After1.png")
+    st.image("image/After2.png", "After Prompt Engineering")
+    st.link_button("Go to Question", "https://medium.com/@htobochnik/mathematical-problem-solving-that-chatgpt-cant-do-a3c83e935c6b")
+
 # Submit button
 if st.button("Submit ✅"):
     if not (age_group and occupation and city and marital_status and family_size and gender and dining_frequency and preference and dine_spend and delivery_spend and influence and online_reviews and changed_mind and factors):
@@ -123,8 +133,4 @@ if st.button("Submit ✅"):
         st.cache_data.clear()
         st.success("🎉 Thank you for completing the survey! Your feedback means a lot.")
         st.balloons()
-        st.info("""🌟 Prompt Engineering Tip:
-If GPT struggles with complex problems, try pre-pending your query with:
-"Take a deep breath, solve the problem step by step:"
-
-This instruction encourages the model to break down the problem into manageable steps—mimicking the detailed reasoning often found in its training data—which can lead to more accurate and comprehensive answers.""")
+        tip()
