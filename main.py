@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import re
 from streamlit_gsheets import GSheetsConnection
 
 # Set up the connection to Google Sheets
@@ -7,6 +8,8 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 
 # Streamlit UI
 st.title("Food Habits Survey")
+
+email = st.text_input("Enter your email (optional):")
 
 # Demographic Questions
 st.header("Demographic Information")
@@ -28,6 +31,14 @@ family_size = st.radio("What is your family size?", [
 gender = st.radio("What is your gender?", [
     "Male", "Female", "Non-binary/Third gender", "Prefer not to say"
 ])
+
+
+# Email validation
+def is_valid_email(email):
+    if not email:
+        return True  # Optional field
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(pattern, email)
 
 # Food Habits Questions
 st.header("Food Habits")
@@ -67,26 +78,30 @@ factors = st.multiselect("Which of these factors influence your choice of food?"
 
 # Submit button
 if st.button("Submit"):
-    # Fetch existing data
-    sheet_data = conn.read()
-    
-    # Create DataFrame for new entry
-    new_row = pd.DataFrame([[
-        age_group, occupation, city, marital_status, family_size, gender,
-        dining_frequency, preference, dine_spend, delivery_spend, 
-        influence, online_reviews, changed_mind, ", ".join(factors)
-    ]], columns=[
-        "Age Group", "Occupation", "City", "Marital Status", "Family Size", "Gender",
-        "Dining Frequency", "Preference", "Dine-out Spend", "Delivery Spend", 
-        "Influencer", "Online Reviews", "Changed Mind", "Food Factors"
-    ])
-    
-    # Append new row to existing data
-    updated_data = pd.concat([sheet_data, new_row], ignore_index=True)
-    
-    # Update Google Sheets
-    conn.update(data=updated_data)
-    st.cache_data.clear()
-    st.rerun()
-    
-    st.success("Thank you for completing the survey!")
+    if not (age_group and occupation and city and marital_status and family_size and gender and dining_frequency and preference and dine_spend and delivery_spend and influence and online_reviews and changed_mind and factors):
+        st.error("Please fill out all mandatory fields before submitting.")
+    elif not is_valid_email(email):
+        st.error("Please enter a valid email address.")
+    else:
+        # Fetch existing data
+        sheet_data = conn.read()
+        
+        # Create DataFrame for new entry
+        new_row = pd.DataFrame([[
+            age_group, occupation, city, marital_status, family_size, gender, email,
+            dining_frequency, preference, dine_spend, delivery_spend, 
+            influence, online_reviews, changed_mind, ", ".join(factors)
+        ]], columns=[
+            "Age Group", "Occupation", "City", "Marital Status", "Family Size", "Gender", "Email",
+            "Dining Frequency", "Preference", "Dine-out Spend", "Delivery Spend", 
+            "Influencer", "Online Reviews", "Changed Mind", "Food Factors"
+        ])
+        
+        # Append new row to existing data
+        updated_data = pd.concat([sheet_data, new_row], ignore_index=True)
+        
+        # Update Google Sheets
+        conn.update(data=updated_data)
+        st.cache_data.clear()
+        st.success("Thank you for completing the survey!")
+        st.balloons()
