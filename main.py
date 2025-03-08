@@ -99,9 +99,9 @@ def tip():
     st.write("If GPT struggles with complex problems, try pre-pending your query with:")
     st.write("Take a deep breath, solve the problem step by step:")
     st.info("This instruction encourages the model to break down the problem into manageable steps—mimicking the detailed reasoning often found in its training data—which can lead to more accurate and comprehensive answers.")
-    st.image("image/Before.png", "Before Prompt Engineering")
-    st.image("image/After1.png")
-    st.image("image/After2.png", "After Prompt Engineering")
+    st.image("Before.png", "Before Prompt Engineering")
+    st.image("After1.png")
+    st.image("After2.png", "After Prompt Engineering")
     st.link_button("Go to Question", "https://medium.com/@htobochnik/mathematical-problem-solving-that-chatgpt-cant-do-a3c83e935c6b")
 
 # Submit button
