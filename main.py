@@ -28,7 +28,7 @@ st.markdown("""
 # App Title
 st.title("🌿 Food Habits Survey")
 
-st.markdown("<div class='h2'>Welcome to our Marketing Research survey!  ?</div>", unsafe_allow_html=True)
+st.markdown("<div class='h1'>Welcome to our Marketing Research survey!  ?</div>", unsafe_allow_html=True)
 
 email = st.text_input("**Enter your email (optional):**")
 
