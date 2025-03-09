@@ -176,7 +176,7 @@ if st.button("Submit ✅"):
         new_row = pd.DataFrame([[
             email, age_group, occupation, city, marital_status, family_size, gender, 
             dining_frequency, preference, dine_spend, delivery_spend, 
-            influence, online_reviews, ranked_preferences, star_ratings_str, changed_mind, ", ".join(factors)
+            influence, online_reviews, inlfuence_str, star_ratings_str, changed_mind, ", ".join(factors)
         ]], columns=[
              "Email", "Age Group", "Occupation", "City", "Marital Status", "Family Size", "Gender",
             "Dining Frequency", "Preference", "Dine-out Spend", "Delivery Spend", 
