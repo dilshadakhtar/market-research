@@ -13,7 +13,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 st.markdown("""
     <style>
         .main {background-color: #f9f9f9; font-family: Arial, sans-serif;}
-        h1 {color: #2D6A4F; text-align: center; font-size: 2.8em;}
+        h1 {color: #2D6A4F; text-align: center; font-size: 3.8em; font-weight: bold;}
         h2 {color: #1B4332; font-size: 2em;}
         .step-header {background-color: #2D6A4F; color: white; padding: 10px; border-radius: 10px; font-size: 1.2em; margin-bottom: 20px;}
         .stButton>button {background-color: #2D6A4F; color: white; border-radius: 12px; font-size: 18px; padding: 12px 30px;}
@@ -28,7 +28,7 @@ st.markdown("""
 # App Title
 st.title("🌿 Food Habits Survey")
 
-st.markdown("<div class='h1'>Welcome to our Marketing Research survey!  </div>", unsafe_allow_html=True)
+st.markdown("<div class='h1'>             Welcome to our Marketing Research survey!  </div>", unsafe_allow_html=True)
 
 email = st.text_input("**Enter your email (optional):**")
 
