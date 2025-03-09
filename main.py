@@ -118,7 +118,6 @@ options = {
     "Low-carb/keto choices": st.checkbox("Low-carb/keto choices"),
     "Organic or locally sourced ingredients": st.checkbox("Organic or locally sourced ingredients"),
     "Gluten-free options": st.checkbox("Gluten-free options"),
-    "None of the above": st.checkbox("None of the above")
 }
 
 # Collect selected options
